@@ -1,5 +1,9 @@
 ::清除所有回显
 @echo off
+::采用utf-8编码（防止中文乱码）
+chcp 65001
+::设置当前路径为根路径
+cd /d %~dp0
 cls
 ::窗口设置
 title npm依赖包批处理安装程序
@@ -16,24 +20,29 @@ echo.
 ::此可执行文件用来安装%installTool% 管理器以及所需要的%installTool% 插件
 ::环境：需要安装nvm
 ::检测是否安装了nvm
-if not exist "C:\software\Nvm\nvm.exe" (
-    echo nvm未安装！
-    exit
-)
+REM if not exist "C:\software\Nvm\nvm.exe" (
+REM     echo nvm未安装！
+REM     exit
+REM )
 
 echo ======:-安装包管理器》》》=======================================
 ::安装包管理器
 REM nvm install 10.16.0
 REM nvm install 10.15.3
 
+::if %hasCnpm%==1 goto a2 else goto a1 
+:a1
 set/p mode=是否安装淘宝镜像(Y/N)?:
 if /i %mode%==Y (
     echo.
     echo ======:-安装淘宝镜像》》》=======================================
     npm install -g cnpm --registry=https://registry.npm.taobao.org
-    @ping 127.0.0.1 -n 6 >nul
-    start C:\Users\pc\Desktop\npm-install.bat
+    REM @ping 127.0.0.1 -n 6 >nul
+    REM start npmInstall.bat
+    set hasCnpm=1
+    call npmInstall.bat
 )
+:a2
 echo.
 echo ======:-启用安装插件》》》=======================================
 set/p mode=是否使用淘宝镜像进行安装(Y/N)?:
@@ -43,7 +52,7 @@ if /i %mode%==Y (
     set installTool=npm 
 )
 echo.
-echo 插件安装方式�?installTool%
+echo ======:-插件安装方式：%installTool%
 echo.
 echo ======:-10.16.0下安装插件》》》=======================================
 ::切换�?0.6.0版本
