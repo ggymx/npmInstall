@@ -9,12 +9,13 @@ cls
 title npm依赖包批处理安装程序
 :menu
 cls
-color 0A
+color 09
 
-echo           ====================================================================
-echo               //***************:-npm依赖包批处理安装程序-:****************//
-echo           ====================================================================
-echo.
+echo         =       =       ====================================================================        =       =   
+echo       =   =   =   =     +++\\***************:-npm依赖包批处理安装程序-:****************//+++      =   =   =   = 
+echo         =   =   =       ====================================================================        =   =   = 
+echo             =                                                                                           =
+echo.       
 echo.
 ::setlocal enableDelayedExpansion
 ::此可执行文件用来安装%installTool% 管理器以及所需要的%installTool% 插件
@@ -31,7 +32,13 @@ REM nvm install 10.16.0
 REM nvm install 10.15.3
 
 ::if %hasCnpm%==1 goto a2 else goto a1 
-:a1
+if defined hasCnpm (
+    goto notInstallCnpm
+) else (
+    goto installCnpm
+)
+
+:installCnpm
 set/p mode=是否安装淘宝镜像(Y/N)?:
 if /i %mode%==Y (
     echo.
@@ -42,7 +49,7 @@ if /i %mode%==Y (
     set hasCnpm=1
     call npmInstall.bat
 )
-:a2
+:notInstallCnpm
 echo.
 echo ======:-启用安装插件》》》=======================================
 set/p mode=是否使用淘宝镜像进行安装(Y/N)?:
@@ -55,7 +62,7 @@ echo.
 echo ======:-插件安装方式：%installTool%
 echo.
 echo ======:-10.16.0下安装插件》》》=======================================
-::切换�?0.6.0版本
+::切换10.6.0版本
 ::nvm use 10.16.0
 
 if %installTool%==npm (
@@ -70,91 +77,94 @@ if %installTool%==npm (
     npm install -g @angular/cli
     ::react
     npm install -g create-react-app
-    color 0A
+    color 09
     echo ======:-安装静态服务器》》》=======================================
     ::静态服务器
     npm install -g serve
-    color 0A
+    color 09
     echo ======:-安装预编译工具》》》=======================================
-    ::预编�?
+    ::预编
     npm install -g babel-cli
     npm install -g less
     npm install -g typescript
-    color 0A
+    color 09
     echo ======:-安装代码检测工具》》》=======================================
     npm install -g es-checker
     npm install -g eslint
     npm install -g htmlhint
     npm install -g jshint
     npm install -g tslint
-    color 0A
+    color 09
     echo ======:-安装打包工具》》》=======================================
     npm install -g grunt-cli
     npm install -g webpack-cli
     npm install -g webpack
     REM npm install -g gulp-cli
     REM npm install -g gulp
-    color 0A
+    color 09
     echo ======:-安装wnode服务端框架（express）》》》=======================================
-      ::express插件（web框架�?
+      ::express插件（web框架）
     npm install -g express-generator
     npm install -g express
-    color 0A
+    color 09
     echo ======:-安装其他》》》=======================================
     ::搭建博客
     npm install -g hexo-cli
-    ::热更新插�?配合express
+    ::热更新插件配合express
     npm install -g nodemon
+    echo  +++++安装完毕====================================================
+    npm ls -g -depth 0
 
 )else (
     echo ======:-开始启动安装（cnpm）》》》=======================================
     echo ======:-安装vue/react/angular-CLI》》》=======================================
     ::前端框架
     ::vue
-     ::安装脚手架中带有@符号�?vscode需要先切换到cmd（powershell不识别@�?
+     ::安装脚手架中带有@符号vscode需要先切换到cmd（powershell不识别@�?
     cnpm install -g @vue/cli
     ::angualr
     cnpm install -g @angular/cli
     ::react
     cnpm install -g create-react-app
-    color 0A
+    color 09
     echo ======:-安装静态服务器》》》=======================================
     ::静态服务器
     cnpm install -g serve
-    color 0A
+    color 09
     echo ======:-安装预编译工具》》》=======================================
-    ::预编�?
+    ::预编
     cnpm install -g babel-cli
     cnpm install -g less
     npm install -g typescript
-    color 0A
+    color 09
     echo ======:-安装代码检测工具》》》=======================================
     cnpm install -g es-checker
     cnpm install -g eslint
     cnpm install -g htmlhint
     cnpm install -g jshint
     cnpm install -g tslint
-    color 0A
+    color 09
     echo ======:-安装打包工具》》》=======================================
     cnpm install -g grunt-cli
     cnpm install -g webpack-cli
     cnpm install -g webpack
     REM npm install -g gulp-cli
     REM npm install -g gulp
-    color 0A
+    color 09
     echo ======:-安装wnode服务端框架（express）》》》=======================================
-      ::express插件（web框架�?
+      ::express插件（web框架）
     cnpm install -g express-generator
     cnpm install -g express
-    color 0A
+    color 09
     echo ======:-安装其他》》》=======================================
     ::搭建博客
     cnpm install -g hexo-cli
-    ::热更新插�?配合express
+    ::热更新插件配合express
     cnpm install -g nodemon
+    echo  +++++安装完毕====================================================
+    npm ls -g -depth 0
 )
-**************安装完毕*************
-npm ls -g -depth 0
+
 
 REM echo ***************�?0.15.3下安装插�?************
 REM ::切换�?installTool% 10.15.3
